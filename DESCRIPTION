@@ -1,4 +1,4 @@
-Package: changepoint
+Package: changepointNegbin
 Type: Package
 Title: Methods for Changepoint Detection
 Version: 2.3.1

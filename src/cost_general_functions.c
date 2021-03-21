@@ -16,6 +16,19 @@
 
 // Cost functions
 
+void negbin_loss(double *SS, int *size, int *n, int *p, int *minorder, int *optimalorder,
+                 int *maxorder, int *start, int *end, double *cost, double *tol, int *error, double *shape, int *MBIC){
+    double l = *end - *start; // Length of segment
+    double sum = SS[*end] - SS[*start]; // Sum of segment data points.
+    double sum_squared = SS[*n + *end] - SS[*n + *start]; // Sum of squared data points.
+    double mean =  sum/l;
+    double var = (sum_squared - sum*sum/l)/l;
+    if(var == 0){var = 0.00000000001;} // Avoid division by zero
+    double r = ceil(fabs(mean*mean/(var-mean))); // Number of allowed failures (parameterized).
+    double ps = mean/var;
+    *cost = sum*log(1-ps) + (l+1)*r*log(ps);
+}
+
 void mean_norm(double *SS, int *size, int *n, int *p, int *minorder, int *optimalorder, int *maxorder, int *start, int *end, double *cost, double *tol, int *error, double *shape, int *MBIC){
     double l = *end - *start;
     double x = SS[ *end ]  - SS[ *start ];
